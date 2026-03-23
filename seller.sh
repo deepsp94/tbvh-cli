@@ -11,7 +11,7 @@ case "$CMD" in
     RESP=$(tbvh_get "/instances?status=$STATUS")
     COUNT=$(echo "$RESP" | jq length)
     print_info "$COUNT instances ($STATUS)"
-    echo "$RESP" | jq -r '.[] | "  \(.id)  \(.max_payment) USDC  \(.buyer_requirement[:80])"'
+    echo "$RESP" | jq -r '.[] | "  \(.id)  \(.max_payment) USDC  \(.buyer_requirement_title[:80])"'
     ;;
 
   commit)
@@ -74,7 +74,7 @@ case "$CMD" in
     NEGS=$(echo "$RESP" | jq '.as_seller')
     COUNT=$(echo "$NEGS" | jq length)
     print_info "$COUNT negotiations as seller"
-    echo "$NEGS" | jq -r '.[] | "  \(.id)  \(.status)  \(.asking_price // "-") USDC  \(.buyer_requirement[:60])"'
+    echo "$NEGS" | jq -r '.[] | "  \(.id)  \(.status)  \(.asking_price // "-") USDC  \(.buyer_requirement_title[:60])"'
     ;;
 
   help|*)

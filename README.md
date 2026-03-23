@@ -25,7 +25,7 @@ cp .env.example .env
 ./buyer.sh list
 
 # Create an instance (as buyer)
-./buyer.sh create "Looking for Snowflake Enterprise pricing" 50
+./buyer.sh create "Snowflake pricing" "Looking for verified per-credit pricing for Snowflake Enterprise tier" 50
 ```
 
 ## Scripts
@@ -43,7 +43,7 @@ Authenticates with TBVH using Sign-In with Ethereum (SIWE). Signs a message with
 Buyer operations — create requests, review negotiations, accept deals.
 
 ```bash
-./buyer.sh create "requirement" 50       # Create instance with 50 USDC budget
+./buyer.sh create "title" "requirement" 50  # Create instance with 50 USDC budget
 ./buyer.sh list                          # List open instances
 ./buyer.sh list closed                   # List closed instances
 ./buyer.sh show <instance-id>            # Show instance + negotiations

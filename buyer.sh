@@ -7,12 +7,14 @@ shift || true
 
 case "$CMD" in
   create)
-    REQUIREMENT="${1:?Usage: ./buyer.sh create \"requirement\" max_payment}"
-    MAX_PAYMENT="${2:?Usage: ./buyer.sh create \"requirement\" max_payment}"
+    TITLE="${1:?Usage: ./buyer.sh create \"title\" \"requirement\" max_payment}"
+    REQUIREMENT="${2:?Usage: ./buyer.sh create \"title\" \"requirement\" max_payment}"
+    MAX_PAYMENT="${3:?Usage: ./buyer.sh create \"title\" \"requirement\" max_payment}"
     RESP=$(tbvh_post "/instances" "$(jq -n \
+      --arg title "$TITLE" \
       --arg req "$REQUIREMENT" \
       --argjson max "$MAX_PAYMENT" \
-      '{buyer_requirement: $req, max_payment: $max}')")
+      '{buyer_requirement_title: $title, buyer_requirement: $req, max_payment: $max}')")
     ID=$(echo "$RESP" | jq -r '.id')
     print_ok "Instance created: $ID"
     echo "$RESP" | jq .
@@ -23,7 +25,7 @@ case "$CMD" in
     RESP=$(tbvh_get "/instances?status=$STATUS")
     COUNT=$(echo "$RESP" | jq length)
     print_info "$COUNT instances ($STATUS)"
-    echo "$RESP" | jq -r '.[] | "  \(.id)  \(.max_payment) USDC  \(.buyer_requirement[:80])"'
+    echo "$RESP" | jq -r '.[] | "  \(.id)  \(.max_payment) USDC  \(.buyer_requirement_title[:80])"'
     ;;
 
   show)
@@ -77,7 +79,7 @@ case "$CMD" in
     echo "Usage: ./buyer.sh <command> [args]"
     echo ""
     echo "Commands:"
-    echo "  create <requirement> <max_payment>  Create a new instance"
+    echo "  create <title> <requirement> <max_payment>  Create a new instance"
     echo "  list [status]                       List instances (default: open)"
     echo "  show <instance-id>                  Show instance + negotiations"
     echo "  accept <negotiation-id>             Accept a proposed negotiation"
