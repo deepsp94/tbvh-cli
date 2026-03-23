@@ -26,7 +26,7 @@ case "$CMD" in
 
   balance)
     USDC=$(get_usdc_address)
-    RAW=$(cast call "$USDC" "balanceOf(address)(uint256)" "$ADDRESS" --rpc-url "$RPC_URL")
+    RAW=$(cast call "$USDC" "balanceOf(address)(uint256)" "$ADDRESS" --rpc-url "$RPC_URL" | awk '{print $1}')
     BALANCE=$(echo "scale=6; $RAW / 1000000" | bc)
     echo -e "${BOLD}$BALANCE${NC} USDC"
     ;;
